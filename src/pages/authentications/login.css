@@ -1,0 +1,26 @@
+.login-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    box-shadow: 0px 0px 30px 1px #2424247a;
+    min-height: 250px;
+    min-width: 250px;
+    padding: 12px 0px;
+}
+
+.card-header {
+    border-bottom: 1px solid #818181;
+}
+
+.card-header h4 {
+    margin: 0px 8px 4px 8px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    padding: 14px 8px 0px 8px;
+    justify-content: center;
+    align-items: center;
+}
