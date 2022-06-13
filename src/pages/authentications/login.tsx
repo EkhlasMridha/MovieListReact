@@ -1,5 +1,5 @@
 import AuthPageWrapper from "./auth-page.wrapper";
-import "./login.css"
+import "./auth-style.css"
 
 const Login = (props: any) => {
     return (
