@@ -1,7 +1,6 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "./api.interceptor";
 import { TokenModel } from "../token/token.model";
-
-export class AuthApi {
+class AuthApi {
     signup = (payload: any): Promise<any> => {
         return axios.post<any>("auth/signup", payload).then(res => res.data);
     }
@@ -10,3 +9,5 @@ export class AuthApi {
         return axios.post<TokenModel>("auth/login", payload).then(res => res.data);
     }
 }
+
+export default new AuthApi();

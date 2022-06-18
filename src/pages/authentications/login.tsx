@@ -1,7 +1,20 @@
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import authApi from "../../data-api/auth.api";
+import { setToken } from "../../token/token.data";
 import AuthPageWrapper from "./auth-page.wrapper";
 import "./auth-style.css"
 
 const Login = (props: any) => {
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const onSubmit = (data: any) => {
+        console.log(data);
+        authApi.login(data).then(res => {
+            setToken(res);
+        })
+    }
+
     return (
         <AuthPageWrapper>
             <div className="login-card">
@@ -9,19 +22,25 @@ const Login = (props: any) => {
                     <h4 style={{ textAlign: "right" }}>Login</h4>
                 </section>
                 <section className="card-body">
-                    <div style={{ display: "flex", flexDirection: "column", marginBottom: "16px", width: "100%" }}>
-                        <label style={{ marginRight: "4px", width: "70px", textAlign: "left" }}>Email</label>
-                        <input />
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-                        <label style={{ marginRight: "4px", width: "70px", textAlign: "left" }}>Password</label>
-                        <input />
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "end", width: "100%", marginTop: "18px" }}>
-                        <button>
-                            Submit
-                        </button>
-                    </div>
+                    <form onSubmit={handleSubmit(onSubmit)} style={{ display: "flex", flexDirection: "column" }}>
+                        <div style={{ display: "flex", flexDirection: "column", marginBottom: "16px", width: "100%" }}>
+                            <label style={{ marginRight: "4px", width: "70px", textAlign: "left" }}>Email</label>
+                            <input {...register("email")} />
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                            <label style={{ marginRight: "4px", width: "70px", textAlign: "left" }}>Password</label>
+                            <input {...register("password")} type="password" />
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "end", width: "100%", marginTop: "18px", flexDirection: "row" }}>
+                            <div style={{ fontSize: "12px", marginRight: "10px" }}>
+                                Don't have a account?
+                                <Link to={"/signup"}>Signup</Link>
+                            </div>
+                            <button>
+                                Submit
+                            </button>
+                        </div>
+                    </form>
                 </section>
             </div>
         </AuthPageWrapper>

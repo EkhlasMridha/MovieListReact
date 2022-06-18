@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "./api.interceptor"
 import { Pagination, PaginationQuery } from "../models/pagination.model";
 
 export class MovieApi {

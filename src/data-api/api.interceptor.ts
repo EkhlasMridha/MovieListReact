@@ -7,10 +7,11 @@ var isAbsoluteURLRegex = /^(?:\w+:)\/\//;
 
 axios.interceptors.request.use((config: any) => {
     const token = getToken();
-    config.headers.Authorization = "Bearer " + token.accessToken;
-    if (!isAbsoluteURLRegex.test(config.url)) {
-        config.url = basePath + config.url;
+    if (token) {
+        config.headers.Authorization = "Bearer " + token.accessToken;
     }
-
+    config.url = basePath + config.url;
     return config;
 })
+
+export default axios;
