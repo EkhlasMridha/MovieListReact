@@ -1,8 +1,8 @@
 export interface PaginationQuery {
     pageSize: number;
     pageNumber: number;
-    search: string;
-    sort: "ASC" | "DESC";
+    search?: string;
+    sort?: "ASC" | "DESC";
 }
 
 export interface Pagination<T> {

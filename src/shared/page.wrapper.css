@@ -1,0 +1,49 @@
+.page-content {
+    display: flex;
+    flex: 1 0 auto;
+    padding: 15px;
+    background-color: #f7f7f7;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.page-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    z-index: 10;
+    padding: 14px;
+    box-shadow: 0px 0px 3px 0px #242424;
+}
+
+.page-header .header-title {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.back-button-icon {
+    font-size: 33px;
+    transform: scale(1.5, 1.5);
+    line-height: 13px;
+    font-stretch: condensed;
+}
+
+.back-button {
+    overflow: hidden;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+}
+
+.back-button:hover {
+    background: #ececec;
+}
+
+.back-button:focus {
+    outline: none;
+}

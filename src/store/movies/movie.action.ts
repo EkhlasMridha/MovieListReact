@@ -5,7 +5,7 @@ import { PaginationQuery } from "../../models/pagination.model";
 export const addMovie = createAsyncThunk<any, any>(
     "[Movie] Create movie",
     async (payload, thunkAPI) => {
-        const result = await movieApi.createMovie(payload).then(res => res);
+        const result = await movieApi.saveMovie(payload).then(res => res);
         return result;
     }
 );

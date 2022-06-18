@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authApi from "../../data-api/auth.api";
 import { setToken } from "../../token/token.data";
 import AuthPageWrapper from "./auth-page.wrapper";
@@ -7,11 +7,12 @@ import "./auth-style.css"
 
 const Login = (props: any) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-
+    let navigate = useNavigate();
     const onSubmit = (data: any) => {
         console.log(data);
         authApi.login(data).then(res => {
             setToken(res);
+            navigate("/dashboard", { replace: true })
         })
     }
 

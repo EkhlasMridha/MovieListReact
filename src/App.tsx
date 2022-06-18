@@ -1,7 +1,5 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { PublicRouter } from './router/public.router';
+import { PublicRouter } from './router/router';
 
 function App() {
   return (
