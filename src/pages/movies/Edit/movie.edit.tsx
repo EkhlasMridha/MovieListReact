@@ -61,7 +61,7 @@ export const EditMovie = (props: any) => {
                         <div style={{ display: "flex", flexDirection: "column", marginBottom: "16px", marginRight: "8px" }}>
                             <label style={{ marginRight: "4px", textAlign: "left" }}>Movie Name</label>
                             <input {...register("name", { required: true })} />
-                            <ErrorMessage isVisible={errors.movieName} message={"Movie name is required"} />
+                            <ErrorMessage errors={errors.name} />
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", marginBottom: "16px", marginRight: "8px" }}>
                             <label style={{ marginRight: "4px", textAlign: "left" }}>Release Date</label>
@@ -72,7 +72,7 @@ export const EditMovie = (props: any) => {
                                         selected={field.value}
                                         dateFormat={"dd-MM-yyyy"} />
                                 )} />
-                            <ErrorMessage isVisible={errors.releaseDate} message={"Release Date is required"} />
+                            <ErrorMessage errors={errors.releaseDate} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "end" }}>
                             <button type={"submit"} className="cursor-pointer">Save</button>

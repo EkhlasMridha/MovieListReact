@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import authApi from "../../data-api/auth.api";
 import { updateLoginStatus } from "../../store/common/common.action";
 import { useAppDispatch } from "../../store/hook.type";
@@ -15,6 +16,7 @@ const Login = (props: any) => {
         console.log(data);
         authApi.login(data).then(res => {
             setToken(res);
+            toast.success("Login successful");
             dispatch(updateLoginStatus(true));
             navigate("/movies", { replace: true })
         })
