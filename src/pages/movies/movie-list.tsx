@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "../../store/hook.type";
 import { deleteMovieSuccess, getMovies, updatePageNumber, updatePageSize } from "../../store/movies/movie.action";
 import { getMovieTableColumn } from "./movie-table.config";
 import DataTable from "react-data-table-component";
+import * as _lodash from "lodash";
+import { TextSearch } from "../../shared/SearchText/text.search";
 
 const MovieList = (props: any) => {
 
@@ -14,7 +16,7 @@ const MovieList = (props: any) => {
     const movieState = useAppSelector(state => state.movie);
 
     useEffect(() => {
-        getMovieList()
+        getMovieList();
     }, [])
 
     const getMovieList = () => {
@@ -22,7 +24,6 @@ const MovieList = (props: any) => {
             pageNumber: movieState.pageNumber ?? 1,
             pageSize: defaultPageSize
         }))
-        dispatch(updatePageSize(defaultPageSize))
     }
 
     const goTo = (path: string) => {
@@ -38,6 +39,15 @@ const MovieList = (props: any) => {
         onDelete: deleteMovie
     });
 
+    const onSearch = (event: any) => {
+        let value = event.target.value;
+        dispatch(getMovies({
+            pageNumber: 1,
+            pageSize: movieState.pageSize ?? 3,
+            search: value
+        }))
+    }
+
     return (
         <PageWrapper title="Movie List" actionButtons={[
             <button className="cursor-pointer" key={"add-movie"} onClick={() => goTo("/movies/create")}>
@@ -45,8 +55,20 @@ const MovieList = (props: any) => {
             </button>
         ]}>
             <div className="full-width">
+                <TextSearch trigger={onSearch} />
                 <DataTable
+                    sortServer={true}
+                    onSort={(column, sortDirection) => {
+                        console.log(column.id);
+                        let parameter = column.id + "~" + sortDirection;
+                        dispatch(getMovies({
+                            pageNumber: movieState.pageNumber ?? 1,
+                            pageSize: movieState.pageSize ?? 3,
+                            sortString: parameter
+                        }))
+                    }}
                     striped
+                    persistTableHead={true}
                     data={movieState.movieList ?? []}
                     columns={columns}
                     progressPending={movieState.isLoadingList}
@@ -70,7 +92,8 @@ const MovieList = (props: any) => {
                             pageNumber: movieState.pageNumber ?? 1,
                             pageSize: currentRowsPerPage
                         }))
-                    }} />
+                    }}
+                />
             </div>
         </PageWrapper>
 

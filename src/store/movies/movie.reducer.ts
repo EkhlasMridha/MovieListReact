@@ -12,6 +12,7 @@ export interface IMovieState {
 
 export const initialState: Partial<IMovieState> = {
     movieList: [],
+    pageSize: 3,
     totalCount: 0
 }
 

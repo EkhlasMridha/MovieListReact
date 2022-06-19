@@ -1,5 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useAppSelector } from "../store/hook.type";
 import { isAuthenticated, removeToken } from "../token/token.data";
 import "./page.wrapper.css";
@@ -18,6 +19,7 @@ export const PageWrapper = (props: PageWrapperProps) => {
 
     const onLogout = () => {
         removeToken();
+        toast.success("Logout success")
         navigate("/login");
     }
 

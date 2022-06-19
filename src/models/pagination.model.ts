@@ -2,7 +2,7 @@ export interface PaginationQuery {
     pageSize: number;
     pageNumber: number;
     search?: string;
-    sort?: "ASC" | "DESC";
+    sortString?: string;
 }
 
 export interface Pagination<T> {

@@ -8,12 +8,7 @@ export class MovieApi {
 
     getMovies = (query: Partial<PaginationQuery>): Promise<Pagination<any>> => {
         return axios.get<Pagination<any>>('movie/byfilter', {
-            params: {
-                pageSize: query.pageSize,
-                pageNumber: query.pageNumber,
-                search: query.search,
-                sort: query.sort
-            }
+            params: { ...query }
         }).then(res => res.data)
     }
 
