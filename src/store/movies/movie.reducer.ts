@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { addMovie, getMovies, updatePageNumber, updatePageSize } from "./movie.action";
+import { addMovieSuccess, getMovies, updateMovieSuccess, updatePageNumber, updatePageSize } from "./movie.action";
 
 export interface IMovieState {
     movieList: any[];
@@ -16,19 +16,24 @@ export const initialState: Partial<IMovieState> = {
 }
 
 export const movieReducer = createReducer(initialState, builder => {
-    builder.addCase(addMovie.pending, (state, action) => {
+    builder.addCase(addMovieSuccess, (state, action) => {
         state = {
             ...state,
-            isCreating: true
+            movieList: (state.movieList ?? []).concat(action.payload),
+            totalCount: (state.totalCount ?? 0) + 1,
         }
         return state;
     })
-        .addCase(addMovie.fulfilled, (state, action) => {
+        .addCase(updateMovieSuccess, (state, action) => {
+            let update = state.movieList?.map(item => {
+                if (item.id === action.payload.id) {
+                    return action.payload
+                }
+                return item
+            })
             state = {
                 ...state,
-                movieList: (state.movieList ?? []).concat(action.payload),
-                totalCount: (state.totalCount ?? 0) + 1,
-                isCreating: false
+                movieList: update
             }
             return state;
         })

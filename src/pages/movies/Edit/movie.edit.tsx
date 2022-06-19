@@ -1,22 +1,35 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import movieApi from "../../../data-api/movie.api";
 import { ErrorMessage } from "../../../shared/error.message";
 import { PageWrapper } from "../../../shared/page.wrapper"
 import { useAppDispatch } from "../../../store/hook.type";
-import { addMovie } from "../../../store/movies/movie.action";
+import { addMovieSuccess, updateMovieSuccess } from "../../../store/movies/movie.action";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const EditMovie = (props: any) => {
     let { id } = useParams();
     let navigate = useNavigate();
 
     const dispatch = useAppDispatch();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, setValue, control } = useForm();
 
     const movieId = isNaN(Number(id)) ? 0 : Number(id);
     useEffect(() => {
+        if (movieId !== 0) {
+            initMovieData();
+        }
 
     }, []);
+
+    const initMovieData = () => {
+        movieApi.getMovieById(movieId).then(res => {
+            setValue("name", res.name);
+            setValue("releaseDate", new Date(res.releaseDate))
+        })
+    }
 
     const goBack = () => {
         navigate("/movies", { replace: true })
@@ -25,7 +38,16 @@ export const EditMovie = (props: any) => {
     const onSubmit = (data: any) => {
         console.log(data);
         data["id"] = movieId;
-        dispatch(addMovie(data));
+
+        movieApi.saveMovie(data).then(res => {
+
+            if (movieId === 0) {
+                dispatch(addMovieSuccess(res));
+            } else {
+                dispatch(updateMovieSuccess(res));
+            }
+            navigate("/movies")
+        })
     }
 
     return (
@@ -40,7 +62,13 @@ export const EditMovie = (props: any) => {
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", marginBottom: "16px", marginRight: "8px" }}>
                             <label style={{ marginRight: "4px", textAlign: "left" }}>Release Date</label>
-                            <input type={"date"} {...register("releaseDate", { required: true })} />
+                            <Controller control={control}
+                                name="releaseDate"
+                                render={({ field }) => (
+                                    <DatePicker onChange={(date) => field.onChange(date)}
+                                        selected={field.value}
+                                        dateFormat={"dd-MM-yyyy"} />
+                                )} />
                             <ErrorMessage isVisible={errors.releaseDate} message={"Release Date is required"} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "end" }}>

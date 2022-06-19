@@ -12,7 +12,7 @@ const Login = (props: any) => {
         console.log(data);
         authApi.login(data).then(res => {
             setToken(res);
-            navigate("/dashboard", { replace: true })
+            navigate("/movies", { replace: true })
         })
     }
 

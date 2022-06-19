@@ -16,6 +16,10 @@ export class MovieApi {
             }
         }).then(res => res.data)
     }
+
+    getMovieById = (id: any) => {
+        return axios.get<any>(`movie/${id}`).then(res => res.data);
+    }
 }
 
 export default new MovieApi();

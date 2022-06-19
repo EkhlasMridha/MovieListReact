@@ -16,6 +16,7 @@
     "rc-table": "^7.24.2",
     "react": "^18.1.0",
     "react-data-table-component": "^7.5.2",
+    "react-datepicker": "^4.8.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.32.0",
     "react-redux": "^8.0.2",
@@ -47,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-datepicker": "^4.4.2"
   }
 }

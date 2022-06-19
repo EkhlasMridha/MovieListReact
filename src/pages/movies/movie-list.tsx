@@ -1,16 +1,13 @@
-import Table from "rc-table";
-import Pagination from "rc-pagination";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageWrapper } from "../../shared/page.wrapper";
 import { useAppDispatch, useAppSelector } from "../../store/hook.type";
 import { getMovies, updatePageNumber, updatePageSize } from "../../store/movies/movie.action";
-import { movieTableColumns } from "./movie-table.config";
-import { AppPagination } from "../../shared/Pagination/app-pagination";
+import { getMovieTableColumn } from "./movie-table.config";
 import DataTable from "react-data-table-component";
 
 const MovieList = (props: any) => {
-    let columns = movieTableColumns;
+    let columns = getMovieTableColumn(props);
     const defaultPageSize = 3;
     let navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -22,7 +19,7 @@ const MovieList = (props: any) => {
 
     const getMovieList = () => {
         dispatch(getMovies({
-            pageNumber: 1,
+            pageNumber: movieState.pageNumber ?? 1,
             pageSize: defaultPageSize
         }))
         dispatch(updatePageSize(defaultPageSize))
@@ -47,9 +44,9 @@ const MovieList = (props: any) => {
                     paginationServer={true}
                     pagination={true}
                     paginationTotalRows={movieState.totalCount}
-                    paginationPerPage={3}
+                    paginationPerPage={movieState.pageSize}
                     paginationRowsPerPageOptions={[3, 5, 10]}
-                    paginationDefaultPage={1}
+                    paginationDefaultPage={movieState.pageNumber ?? 1}
                     onChangePage={(page, totalRows) => {
                         console.log("Total rows", totalRows);
                         dispatch(getMovies({
