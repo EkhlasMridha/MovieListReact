@@ -36,10 +36,10 @@ export const getMovieTableColumn = (props: any) => {
                             className="cursor-pointer"
                             style={{ marginLeft: "8px", color: "red" }}
                             onClick={() => {
-
+                                props.onDelete(row)
                             }}
                         >
-                            Delete
+                            Remove
                         </span>
                     </div>
                 )

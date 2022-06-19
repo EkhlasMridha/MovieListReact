@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { addMovieSuccess, getMovies, updateMovieSuccess, updatePageNumber, updatePageSize } from "./movie.action";
+import { addMovieSuccess, deleteMovieSuccess, getMovies, updateMovieSuccess, updatePageNumber, updatePageSize } from "./movie.action";
 
 export interface IMovieState {
     movieList: any[];
@@ -66,6 +66,17 @@ export const movieReducer = createReducer(initialState, builder => {
             state = {
                 ...state,
                 pageNumber: action.payload
+            }
+            return state;
+        })
+        .addCase(deleteMovieSuccess.fulfilled, (state, action) => {
+            let index = state.movieList?.findIndex(a => a.id === action.payload);
+            let cpy = [...state.movieList ?? []];
+            cpy.splice(index as any, 1);
+
+            state = {
+                ...state,
+                movieList: cpy
             }
             return state;
         })

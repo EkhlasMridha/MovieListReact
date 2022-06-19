@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageWrapper } from "../../shared/page.wrapper";
 import { useAppDispatch, useAppSelector } from "../../store/hook.type";
-import { getMovies, updatePageNumber, updatePageSize } from "../../store/movies/movie.action";
+import { deleteMovieSuccess, getMovies, updatePageNumber, updatePageSize } from "../../store/movies/movie.action";
 import { getMovieTableColumn } from "./movie-table.config";
 import DataTable from "react-data-table-component";
 
 const MovieList = (props: any) => {
-    let columns = getMovieTableColumn(props);
+
     const defaultPageSize = 3;
     let navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -29,6 +29,14 @@ const MovieList = (props: any) => {
         navigate(path, { replace: true })
     }
 
+    const deleteMovie = (data: any) => {
+        dispatch(deleteMovieSuccess(data.id));
+    }
+
+    let columns = getMovieTableColumn({
+        ...props,
+        onDelete: deleteMovie
+    });
     return (
         <PageWrapper title="Movie List" actionButtons={[
             <button className="cursor-pointer" key={"add-movie"} onClick={() => goTo("/movies/create")}>
