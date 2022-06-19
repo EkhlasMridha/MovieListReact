@@ -38,3 +38,7 @@ a {
 .white-background {
   background-color: #fff;
 }
+
+.full-width {
+  width: 100%;
+}

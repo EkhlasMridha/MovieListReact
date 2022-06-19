@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getToken } from "../token/token.data";
+import { getToken, removeToken } from "../token/token.data";
 
 export const basePath = "http://localhost:4000/"
 
@@ -12,6 +12,15 @@ axios.interceptors.request.use((config: any) => {
     }
     config.url = basePath + config.url;
     return config;
+});
+
+axios.interceptors.response.use((config) => {
+    return config;
+}, (error) => {
+    if (error.response.status === 401) {
+        removeToken();
+    }
+    return Promise.reject(error)
 })
 
 export default axios;

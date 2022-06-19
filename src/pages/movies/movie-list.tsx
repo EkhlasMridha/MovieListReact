@@ -1,15 +1,17 @@
 import Table from "rc-table";
+import Pagination from "rc-pagination";
 import { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import movieApi from "../../data-api/movie.api";
+import { useNavigate } from "react-router-dom";
 import { PageWrapper } from "../../shared/page.wrapper";
 import { useAppDispatch, useAppSelector } from "../../store/hook.type";
-import { getMovies } from "../../store/movies/movie.action";
+import { getMovies, updatePageNumber, updatePageSize } from "../../store/movies/movie.action";
 import { movieTableColumns } from "./movie-table.config";
+import { AppPagination } from "../../shared/Pagination/app-pagination";
+import DataTable from "react-data-table-component";
 
 const MovieList = (props: any) => {
     let columns = movieTableColumns;
-    const [data, setData] = useState<any>();
+    const defaultPageSize = 3;
     let navigate = useNavigate();
     const dispatch = useAppDispatch();
     const movieState = useAppSelector(state => state.movie);
@@ -21,8 +23,9 @@ const MovieList = (props: any) => {
     const getMovieList = () => {
         dispatch(getMovies({
             pageNumber: 1,
-            pageSize: 10
+            pageSize: defaultPageSize
         }))
+        dispatch(updatePageSize(defaultPageSize))
     }
 
     const goTo = (path: string) => {
@@ -35,10 +38,34 @@ const MovieList = (props: any) => {
                 Add Movie
             </button>
         ]}>
-            <Table rowKey={(row) => row.id}
-                columns={columns}
-                data={movieState.movieList}
-            />
+            <div className="full-width">
+                <DataTable
+                    striped
+                    data={movieState.movieList ?? []}
+                    columns={columns}
+                    progressPending={movieState.isLoadingList}
+                    paginationServer={true}
+                    pagination={true}
+                    paginationTotalRows={movieState.totalCount}
+                    paginationPerPage={3}
+                    paginationRowsPerPageOptions={[3, 5, 10]}
+                    paginationDefaultPage={1}
+                    onChangePage={(page, totalRows) => {
+                        console.log("Total rows", totalRows);
+                        dispatch(getMovies({
+                            pageNumber: page,
+                            pageSize: movieState.pageSize ?? defaultPageSize
+                        }))
+                        dispatch(updatePageNumber(page));
+                    }}
+                    onChangeRowsPerPage={(currentRowsPerPage, currentPage) => {
+                        dispatch(updatePageSize(currentRowsPerPage))
+                        dispatch(getMovies({
+                            pageNumber: movieState.pageNumber ?? 1,
+                            pageSize: currentRowsPerPage
+                        }))
+                    }} />
+            </div>
         </PageWrapper>
 
     )

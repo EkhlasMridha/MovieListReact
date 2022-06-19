@@ -1,18 +1,19 @@
 import { ColumnsType } from "rc-table/lib/interface";
+import { TableColumn } from "react-data-table-component";
 
-export const movieTableColumns: ColumnsType<any> = [
+export const movieTableColumns: TableColumn<any>[] = [
     {
-        title: "Name",
-        dataIndex: "name",
-        key: "name"
+        name: "Name",
+        selector: (row: any) => row.name,
+        id: "name"
     },
     {
-        title: "Release Date",
-        dataIndex: "releaseDate",
-        key: "releaseDate",
-        render: (value, record, index) => {
-            let date = new Date(value);
-            return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+        name: "Release Date",
+        selector: (row) => row.releaseDate,
+        id: "releaseDate",
+        cell: (row, rowIndex) => {
+            let date = new Date(row?.releaseDate);
+            return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
         }
     }
 ]

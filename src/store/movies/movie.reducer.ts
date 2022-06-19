@@ -1,10 +1,11 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { addMovie, getMovies } from "./movie.action";
+import { addMovie, getMovies, updatePageNumber, updatePageSize } from "./movie.action";
 
 export interface IMovieState {
     movieList: any[];
     totalCount: number;
     pageNumber: number;
+    pageSize: number;
     isCreating: boolean;
     isLoadingList: boolean;
 }
@@ -47,6 +48,20 @@ export const movieReducer = createReducer(initialState, builder => {
                 pageNumber: action.payload?.pageNumber
             }
 
+            return state;
+        })
+        .addCase(updatePageSize, (state, action) => {
+            state = {
+                ...state,
+                pageSize: action.payload
+            }
+            return state;
+        })
+        .addCase(updatePageNumber, (state, action) => {
+            state = {
+                ...state,
+                pageNumber: action.payload
+            }
             return state;
         })
 })

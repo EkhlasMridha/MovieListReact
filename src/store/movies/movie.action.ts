@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import movieApi from "../../data-api/movie.api";
 import { PaginationQuery } from "../../models/pagination.model";
 
@@ -16,4 +16,7 @@ export const getMovies = createAsyncThunk<any, PaginationQuery>(
         const result = await movieApi.getMovies(paramters).then(res => res);
         return result;
     }
-)
+);
+
+export const updatePageSize = createAction<number>("[Movie] Update page size");
+export const updatePageNumber = createAction<number>("[Movie] Update page number");
