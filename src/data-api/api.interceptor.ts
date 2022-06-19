@@ -1,4 +1,6 @@
 import axios from "axios";
+import { updateLoginStatus, updateTokenStatus } from "../store/common/common.action";
+import { rootDispatch } from "../store/store";
 import { getToken, removeToken } from "../token/token.data";
 
 export const basePath = "http://localhost:4000/"
@@ -19,6 +21,8 @@ axios.interceptors.response.use((config) => {
 }, (error) => {
     if (error.response.status === 401) {
         removeToken();
+        rootDispatch(updateLoginStatus(false));
+        rootDispatch(updateTokenStatus(true));
     }
     return Promise.reject(error)
 })

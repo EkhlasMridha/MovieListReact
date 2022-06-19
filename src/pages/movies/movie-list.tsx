@@ -37,6 +37,7 @@ const MovieList = (props: any) => {
         ...props,
         onDelete: deleteMovie
     });
+
     return (
         <PageWrapper title="Movie List" actionButtons={[
             <button className="cursor-pointer" key={"add-movie"} onClick={() => goTo("/movies/create")}>

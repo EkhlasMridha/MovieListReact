@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import authApi from "../../data-api/auth.api";
+import { updateLoginStatus } from "../../store/common/common.action";
+import { useAppDispatch } from "../../store/hook.type";
 import { setToken } from "../../token/token.data";
 import AuthPageWrapper from "./auth-page.wrapper";
 import "./auth-style.css"
@@ -8,10 +10,12 @@ import "./auth-style.css"
 const Login = (props: any) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     let navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const onSubmit = (data: any) => {
         console.log(data);
         authApi.login(data).then(res => {
             setToken(res);
+            dispatch(updateLoginStatus(true));
             navigate("/movies", { replace: true })
         })
     }

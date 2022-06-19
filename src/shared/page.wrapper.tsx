@@ -1,4 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../store/hook.type";
+import { isAuthenticated, removeToken } from "../token/token.data";
 import "./page.wrapper.css";
 
 interface PageWrapperProps {
@@ -9,6 +12,15 @@ interface PageWrapperProps {
 }
 
 export const PageWrapper = (props: PageWrapperProps) => {
+    let navigate = useNavigate();
+    const commonState = useAppSelector(state => state.common);
+    const authenticated = isAuthenticated();
+
+    const onLogout = () => {
+        removeToken();
+        navigate("/login");
+    }
+
     return (
         <div className="page-wrapper">
             <section className="page-header" key={"page-header"}>
@@ -23,6 +35,11 @@ export const PageWrapper = (props: PageWrapperProps) => {
                     props.actionButtons?.map(button => {
                         return button;
                     })
+                }
+                {authenticated &&
+                    <div style={{ padding: "0px 8px" }}>
+                        <button className="cursor-pointer" onClick={onLogout}>Logout</button>
+                    </div>
                 }
             </section>
             <section className="page-content" key={"page-body"}>
