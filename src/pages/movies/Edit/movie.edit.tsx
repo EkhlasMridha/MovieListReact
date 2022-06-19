@@ -8,6 +8,7 @@ import { useAppDispatch } from "../../../store/hook.type";
 import { addMovieSuccess, updateMovieSuccess } from "../../../store/movies/movie.action";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { toast } from "react-toastify";
 
 export const EditMovie = (props: any) => {
     let { id } = useParams();
@@ -43,8 +44,10 @@ export const EditMovie = (props: any) => {
 
             if (movieId === 0) {
                 dispatch(addMovieSuccess(res));
+                toast.success(`${data.name} Added successfully`)
             } else {
                 dispatch(updateMovieSuccess(res));
+                toast.success(`${data.name} Updated successfully`)
             }
             navigate("/movies")
         })

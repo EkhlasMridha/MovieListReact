@@ -1,4 +1,3 @@
-import { ColumnsType } from "rc-table/lib/interface";
 import { TableColumn } from "react-data-table-component";
 import { NavLink } from "react-router-dom";
 
@@ -20,13 +19,13 @@ export const getMovieTableColumn = (props: any) => {
         },
         {
             name: "Actions",
-            width: "80px",
+            width: "100px",
             center: true,
             button: true,
             sortable: false,
             cell: (row, rowIndex, column) => {
                 return (
-                    <div className="row-list">
+                    <div style={{ display: "flex", flexDirection: "row", padding: "0px 8px" }}>
                         <span
                             className="cursor-pointer"
                         >
